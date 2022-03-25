@@ -15,18 +15,17 @@ public sealed class DefinitionsFinder : IDefinitionsFinder
 
   public async Task<IDictionary<string, IEnumerable<Definition>>> GetDefinitions(string text)
   {
-    var cleanTxt = RemoveSpecialCharacters(text);
-    var words = cleanTxt
-      .Split(' ')
-      .Distinct();
     var retval = new Dictionary<string, IEnumerable<Definition>>();
-    foreach (var word in words)
+    var words = RemoveSpecialCharacters(text).Split(' ');
+
+    var wordsDist = words.Distinct();
+    foreach (var word in wordsDist)
     {
       var defs = await _database.GetDefinitions(word);
       retval.Add(word, defs);
     }
 
-    var phrases = GetPhrases(cleanTxt);
+    var phrases = GetPhrases(words);
     foreach (var phrase in phrases)
     {
       var defs = await _database.GetDefinitions(phrase);
@@ -36,10 +35,9 @@ public sealed class DefinitionsFinder : IDefinitionsFinder
     return retval;
   }
 
-  private static IEnumerable<string> GetPhrases(string cleanTxt, int depth = 2)
+  private static IEnumerable<string> GetPhrases(string[] words, int depth = 2)
   {
     var retval = new List<string>();
-    var words = cleanTxt.Split(' ');
     for (var i = 0; i < words.Length - depth + 1; i++)
     {
       var phrase = $"{words[i]} {words[i + 1]}";
