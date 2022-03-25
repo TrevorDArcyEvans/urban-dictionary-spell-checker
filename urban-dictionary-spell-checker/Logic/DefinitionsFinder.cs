@@ -17,19 +17,12 @@ public sealed class DefinitionsFinder : IDefinitionsFinder
   {
     var retval = new Dictionary<string, IEnumerable<Definition>>();
     var words = RemoveSpecialCharacters(text).Split(' ');
+    var wordsPhrases = words.Distinct().Concat(GetPhrases(words));
 
-    var wordsDist = words.Distinct();
-    foreach (var word in wordsDist)
+    foreach (var wordsPhrase in wordsPhrases)
     {
-      var defs = await _database.GetDefinitions(word);
-      retval.Add(word, defs);
-    }
-
-    var phrases = GetPhrases(words);
-    foreach (var phrase in phrases)
-    {
-      var defs = await _database.GetDefinitions(phrase);
-      retval.Add(phrase, defs);
+      var defs = await _database.GetDefinitions(wordsPhrase);
+      retval.Add(wordsPhrase, defs);
     }
 
     return retval;
