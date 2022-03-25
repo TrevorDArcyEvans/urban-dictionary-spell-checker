@@ -4,7 +4,6 @@
     "urban_dictionary_spell_checker": {
       "commandName": "Project",
       "dotnetRunMessages": true,
-      "launchBrowser": true,
       "launchUrl": "swagger",
       "applicationUrl": "http://localhost:5287",
       "environmentVariables": {
