@@ -4,5 +4,5 @@ using Models;
 
 public interface IDatabase
 {
-  Task<IEnumerable<Definition>> GetDefinitions(string phrase);
+  Task<IEnumerable<Definition>> GetDefinitions(string phrase, int limit = 2);
 }

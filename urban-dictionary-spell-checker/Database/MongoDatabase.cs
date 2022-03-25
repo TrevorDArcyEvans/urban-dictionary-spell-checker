@@ -12,7 +12,7 @@ public sealed class MongoDatabase : IDatabase
     _client = client;
   }
 
-  public async Task<IEnumerable<Definition>> GetDefinitions(string phrase)
+  public async Task<IEnumerable<Definition>> GetDefinitions(string phrase, int limit = 2)
   {
     var defs = await _client
       .GetDatabase("urban-dictionary")
@@ -20,8 +20,9 @@ public sealed class MongoDatabase : IDatabase
       .Find(
         Builders<Definition>.Filter
           .Where(x => x.lowercase_word == phrase))
+      .SortByDescending(x => x.thumbs_up)
+      .Limit(limit)
       .ToListAsync();
-    var orderedDefs = defs.OrderByDescending(x => x.thumbs_up);
-    return orderedDefs;
+    return defs;
   }
 }
