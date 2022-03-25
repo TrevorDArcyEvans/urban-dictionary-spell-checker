@@ -1,11 +1,13 @@
 using MongoDB.Driver;
 using urban_dictionary_spell_checker.Database;
+using urban_dictionary_spell_checker.Logic;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 var serviceCollection = builder.Services;
 serviceCollection.AddSingleton<IDatabase, MongoDatabase>();
+serviceCollection.AddSingleton<IDefinitionsFinder, DefinitionsFinder>();
 serviceCollection.AddSingleton(_ => new MongoClient(builder.Configuration.GetConnectionString("MongoDb")) as IMongoClient);
 
 builder.Services.AddControllers();

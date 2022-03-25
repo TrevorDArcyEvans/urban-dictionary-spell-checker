@@ -2,22 +2,22 @@ namespace urban_dictionary_spell_checker.Controllers;
 
 using Microsoft.AspNetCore.Mvc;
 using Models;
-using Database;
+using Logic;
 
 [ApiController]
 [Route("[controller]")]
 public sealed class DefinitionsController : ControllerBase
 {
-  private readonly IDatabase _database;
+  private readonly IDefinitionsFinder _definitionsFinder;
 
-  public DefinitionsController(IDatabase database)
+  public DefinitionsController(IDefinitionsFinder definitionsFinder)
   {
-    _database = database;
+    _definitionsFinder = definitionsFinder;
   }
 
   [HttpPost]
-  public async Task<IEnumerable<Definition>> Post([FromBody] string text)
+  public async Task<IDictionary<string, IEnumerable<Definition>>> Post([FromBody] string text)
   {
-    return await _database.GetDefinitions(text);
+    return await _definitionsFinder.GetDefinitions(text);
   }
 }

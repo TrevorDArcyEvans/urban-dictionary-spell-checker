@@ -4,5 +4,5 @@ using Models;
 
 public interface IDatabase
 {
-  Task<IEnumerable<Definition>> GetDefinitions(string words);
+  Task<IEnumerable<Definition>> GetDefinitions(string phrase);
 }
