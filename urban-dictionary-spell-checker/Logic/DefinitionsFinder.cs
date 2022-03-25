@@ -26,6 +26,26 @@ public sealed class DefinitionsFinder : IDefinitionsFinder
       retval.Add(word, defs);
     }
 
+    var phrases = GetPhrases(cleanTxt);
+    foreach (var phrase in phrases)
+    {
+      var defs = await _database.GetDefinitions(phrase);
+      retval.Add(phrase, defs);
+    }
+
+    return retval;
+  }
+
+  private static IEnumerable<string> GetPhrases(string cleanTxt, int depth = 2)
+  {
+    var retval = new List<string>();
+    var words = cleanTxt.Split(' ');
+    for (var i = 0; i < words.Length - depth + 1; i++)
+    {
+      var phrase = $"{words[i]} {words[i + 1]}";
+      retval.Add(phrase);
+    }
+
     return retval;
   }
 
