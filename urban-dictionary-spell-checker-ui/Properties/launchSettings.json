@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "urban-dictionary-spell-checker-ui": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "applicationUrl": "http://localhost:5003",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}

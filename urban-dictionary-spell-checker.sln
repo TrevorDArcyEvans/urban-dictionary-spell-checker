@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "urban-dictionary-spell-checker", "urban-dictionary-spell-checker\urban-dictionary-spell-checker.csproj", "{274DD0BD-328B-4733-983B-0C229731FA7E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "urban-dictionary-spell-checker-ui", "urban-dictionary-spell-checker-ui\urban-dictionary-spell-checker-ui.csproj", "{C5193DCF-28F5-44F1-8BE3-D36F6523B629}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{274DD0BD-328B-4733-983B-0C229731FA7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{274DD0BD-328B-4733-983B-0C229731FA7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{274DD0BD-328B-4733-983B-0C229731FA7E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C5193DCF-28F5-44F1-8BE3-D36F6523B629}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5193DCF-28F5-44F1-8BE3-D36F6523B629}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C5193DCF-28F5-44F1-8BE3-D36F6523B629}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C5193DCF-28F5-44F1-8BE3-D36F6523B629}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

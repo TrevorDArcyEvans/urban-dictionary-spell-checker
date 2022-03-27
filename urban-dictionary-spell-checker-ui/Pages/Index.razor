@@ -1,0 +1,49 @@
+@page "/"
+@using RestSharp
+@using urban_dictionary_spell_checker.Models
+
+<PageTitle>Urban Dictionary Spell Checker</PageTitle>
+
+<label for="text">Enter text:</label>
+<textarea @bind="_text" id="text" style="width: 100%; height: 300px"></textarea>
+<button onclick="@(async () => await OnCheck())">Check</button>
+<p/>
+
+@((MarkupString)_rendered)
+
+@code
+{
+  [Inject]
+  private IConfigurationRoot _config { get; set; }
+
+  private string _text { get; set; } = "No shit, I didn't mean to dis ya, brah";
+  private string _rendered { get; set; }
+
+  private RestClient _api;
+  
+  protected override void OnInitialized()
+  {
+    var url = _config["API"];
+    _api = new RestClient(url);
+    base.OnInitialized();
+  }
+
+  private async Task OnCheck()
+  {
+    _rendered = string.Empty;
+    var req = new RestRequest("Definitions");
+    req.AddBody(_text);
+    var resp = await _api.PostAsync<Dictionary<string, List<Definition>>>(req);
+    var rendered = _text;
+    foreach (var kvp in resp)
+    {
+      rendered = rendered.Replace(kvp.Key, GetLink(kvp.Key, kvp.Value.FirstOrDefault()));
+    }
+    _rendered = rendered;
+  }
+
+  private static string GetLink(string phrase, Definition def)
+  {
+    return def is null ? phrase : $"<a href=\"{def.permalink}\" title=\"{def.definition}\">{phrase}</a>";
+  }
+}
