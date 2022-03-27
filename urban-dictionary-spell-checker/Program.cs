@@ -1,5 +1,7 @@
 using MongoDB.Driver;
+using Swashbuckle.AspNetCore.Filters;
 using urban_dictionary_spell_checker.Database;
+using urban_dictionary_spell_checker.Examples;
 using urban_dictionary_spell_checker.Logic;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,7 +15,11 @@ serviceCollection.AddSingleton(_ => new MongoClient(builder.Configuration.GetCon
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(opts =>
+{
+  opts.ExampleFilters();
+});
+builder.Services.AddSwaggerExamplesFromAssemblyOf<TextExample>();
 
 var app = builder.Build();
 
