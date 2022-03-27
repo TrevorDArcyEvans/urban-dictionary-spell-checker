@@ -14,12 +14,13 @@ public sealed class MongoDatabase : IDatabase
 
   public async Task<IEnumerable<Definition>> GetDefinitions(string phrase, int limit = 2)
   {
+    var lcPhrase = phrase.ToLowerInvariant();
     var defs = await _client
       .GetDatabase("urban-dictionary")
       .GetCollection<Definition>("words")
       .Find(
         Builders<Definition>.Filter
-          .Where(x => x.lowercase_word == phrase))
+          .Where(x => x.lowercase_word == lcPhrase))
       .SortByDescending(x => x.thumbs_up)
       .Limit(limit)
       .ToListAsync();
