@@ -12,6 +12,7 @@ It might stop someone [popping a cap in your ass.](https://www.urbandictionary.c
 * build and run solution:
 
 ```bash
+$ cd urban-dictionary-spell-checker
 $ dotnet run
 ```
 
