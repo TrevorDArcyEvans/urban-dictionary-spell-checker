@@ -1,6 +1,8 @@
 @page "/"
+
 @using RestSharp
 @using urban_dictionary_spell_checker.Models
+@using System.Text
 
 <PageTitle>Urban Dictionary Spell Checker</PageTitle>
 
@@ -16,11 +18,11 @@
   [Inject]
   private IConfigurationRoot _config { get; set; }
 
-  private string _text { get; set; } = "No shit, I didn't mean to dis ya, brah";
+  private string _text { get; set; } = "No shit, I didn't mean to dis ya, brah!";
   private string _rendered { get; set; }
 
   private RestClient _api;
-  
+
   protected override void OnInitialized()
   {
     var url = _config["API"];
@@ -31,19 +33,42 @@
   private async Task OnCheck()
   {
     _rendered = string.Empty;
+    var words = _text.Split(' ');
     var req = new RestRequest("Definitions");
     req.AddBody(_text);
-    var resp = await _api.PostAsync<Dictionary<string, List<Definition>>>(req);
-    var rendered = _text;
-    foreach (var kvp in resp)
+    var defs = await _api.PostAsync<Dictionary<string, List<Definition>>>(req);
+    var htmls = new List<string>();
+    for (var i = 0; i < words.Length; i++)
     {
-      rendered = rendered.Replace(kvp.Key, GetLink(kvp.Key, kvp.Value.FirstOrDefault()));
+      var word = words[i];
+      var trimWord = RemoveSpecialCharacters(word);
+      if (!defs.ContainsKey(trimWord))
+      {
+        continue;
+      }
+
+      var def = defs[trimWord].FirstOrDefault();
+      var link = GetLink(word, def);
+      htmls.Add(link);
     }
-    _rendered = rendered;
+    var html = string.Join(' ', htmls.ToArray());
+
+    _rendered = html;
   }
 
   private static string GetLink(string phrase, Definition def)
   {
     return def is null ? phrase : $"<a href=\"{def.permalink}\" title=\"{def.definition}\">{phrase}</a>";
+  }
+
+  private static string RemoveSpecialCharacters(string str)
+  {
+    var sb = new StringBuilder();
+    foreach (var c in str.Where(c => char.IsLetter(c) || c is '\'' or ' '))
+    {
+      sb.Append(c);
+    }
+
+    return sb.ToString();
   }
 }
