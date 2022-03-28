@@ -6,6 +6,6 @@ public sealed class TextExample : IExamplesProvider<string>
 {
   public string GetExamples()
   {
-    return "No shit, I didn't mean to dis ya, brah";
+    return "No shit, I didn't mean to dis ya, brah!";
   }
 }
