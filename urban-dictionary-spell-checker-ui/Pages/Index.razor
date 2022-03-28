@@ -3,6 +3,7 @@
 @using RestSharp
 @using urban_dictionary_spell_checker.Models
 @using System.Text
+@using System.Web
 
 <PageTitle>Urban Dictionary Spell Checker</PageTitle>
 
@@ -58,7 +59,7 @@
 
   private static string GetLink(string phrase, Definition def)
   {
-    return def is null ? phrase : $"<a href=\"{def.permalink}\" title=\"{def.definition}\">{phrase}</a>";
+    return def is null ? phrase : $"<a href=\"{def.permalink}\" title=\"{HttpUtility.HtmlEncode(def.definition)}\">{phrase}</a>";
   }
 
   private static string RemoveSpecialCharacters(string str)
