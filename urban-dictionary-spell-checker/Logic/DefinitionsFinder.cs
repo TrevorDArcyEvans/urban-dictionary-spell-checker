@@ -1,5 +1,6 @@
 ﻿namespace urban_dictionary_spell_checker.Logic;
 
+using System.Collections.Concurrent;
 using System.Text;
 using Database;
 using Models;
@@ -15,15 +16,16 @@ public sealed class DefinitionsFinder : IDefinitionsFinder
 
   public async Task<IDictionary<string, IEnumerable<Definition>>> GetDefinitions(string text)
   {
-    var retval = new Dictionary<string, IEnumerable<Definition>>();
+    var retval = new ConcurrentDictionary<string, IEnumerable<Definition>>();
     var words = RemoveSpecialCharacters(text).Split(' ');
     var wordsPhrases = words.Distinct().Concat(GetPhrases(words));
-
-    foreach (var wordsPhrase in wordsPhrases)
+    var tasks = wordsPhrases.Select(async wp =>
     {
-      var defs = await _database.GetDefinitions(wordsPhrase);
-      retval.Add(wordsPhrase, defs);
-    }
+      var  defs = await _database.GetDefinitions(wp);
+      retval.TryAdd(wp, defs);
+    });
+
+    await Task.WhenAll(tasks);
 
     return retval;
   }
