@@ -1,6 +1,8 @@
 ﻿# [Urban Dictionary](https://www.urbandictionary.com/) Spell Checker
 Don't accidentally [diss](http://diss.urbanup.com/37489) someone, [brah](http://brah.urbanup.com/1485311)!
 
+![](screenshot.png)
+
 An app to check your messages to see if you have inadvertently included any slang.
 It might stop someone [popping a cap in your ass.](https://www.urbandictionary.com/define.php?term=pop+a+cap+in+your+ass)
 
@@ -9,15 +11,33 @@ It might stop someone [popping a cap in your ass.](https://www.urbandictionary.c
 * _MongoDB_
 
 ## Getting started
-* build and run solution:
+
+### Build solution:
+
+```bash
+$ dotnet build
+```
+
+### Run API
 
 ```bash
 $ cd urban-dictionary-spell-checker
 $ dotnet run
 ```
 
-* open [SwaggerUI](http://localhost:5287/swagger/index.html)
-* enter text and see what [fax pas](https://www.urbandictionary.com/define.php?term=Faux%20Pas) you've made!
+* open [SwaggerUI](http://localhost:5003/swagger/index.html)
+* enter text and see what [SNAFU](http://snafu.urbanup.com/449743) you've done!
+
+### Run UI:
+Note that API must be running.
+
+```bash
+$ cd urban-dictionary-spell-checker-ui
+$ dotnet run
+```
+
+* open [UI](http://localhost:5287/)
+* enter text, click on _Check_ and see what [fax pas](http://faux-pas.urbanup.com/919144) you've made!
 
 ## Urban Dictionary Data
 There *is* an [Unofficial Urban Dictionary API](https://dev.to/nhighleysalongenius/comment/epgk)
